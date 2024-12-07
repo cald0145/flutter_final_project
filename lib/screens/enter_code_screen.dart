@@ -35,23 +35,32 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
 
       if (!mounted) return;
 
-      if (response.containsKey('error')) {
+      if (response.containsKey('data')) {
+        Provider.of<AppState>(context, listen: false)
+            .setSessionId(response['data']['session_id']);
+        Navigator.pushReplacementNamed(context, '/movie-selection');
+      } else if (response.containsKey('error')) {
+        final errorMessage =
+            response['error']['message'] ?? 'Unknown error occurred.';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(response['error']['message']),
+            content: Text(errorMessage),
             backgroundColor: Colors.red,
           ),
         );
       } else {
-        Provider.of<AppState>(context, listen: false)
-            .setSessionId(response['data']['session_id']);
-        Navigator.pushReplacementNamed(context, '/movie-selection');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Unexpected response from server :^('),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Uh Oh, Failed to join session! Please try again!'),
+          content: Text('Whoops, Failed to join session. Please try again!'),
           backgroundColor: Colors.red,
         ),
       );
@@ -94,10 +103,10 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
                   ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your session code!';
+                      return 'Please enter your code!';
                     }
                     if (value.length != 4) {
-                      return 'Oops, code must be 4 digits!';
+                      return 'Oops, Code must be 4 digits!';
                     }
                     return null;
                   },

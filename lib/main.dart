@@ -5,6 +5,7 @@ import 'screens/welcome_screen.dart';
 import 'services/device_id_service.dart';
 import 'utils/app_state.dart';
 import 'screens/share_code_screen.dart';
+import 'screens/enter_code_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
