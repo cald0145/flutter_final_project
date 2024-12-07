@@ -32,7 +32,7 @@ class MovieNightApp extends StatelessWidget {
         home: WelcomeScreen(deviceIdService: deviceIdService),
         routes: {
           '/share-code': (context) => const ShareCodeScreen(),
-          '/enter-code': (context) => const Placeholder(),
+          '/enter-code': (context) => const EnterCodeScreen(),
           '/movie-selection': (context) => const Placeholder(),
         },
       ),
