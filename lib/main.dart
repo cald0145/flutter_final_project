@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'screens/welcome_screen.dart';
 import 'services/device_id_service.dart';
+import 'utils/app_state.dart';
+import 'screens/share_code_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,24 +17,25 @@ void main() async {
 class MovieNightApp extends StatelessWidget {
   final DeviceIdService deviceIdService;
 
-  const MovieNightApp({Key? key, required this.deviceIdService})
-      : super(key: key);
+  const MovieNightApp({super.key, required this.deviceIdService});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Movie Night',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => AppState(),
+      child: MaterialApp(
+        title: 'Movie Night',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: true,
+        ),
+        home: WelcomeScreen(deviceIdService: deviceIdService),
+        routes: {
+          '/share-code': (context) => const ShareCodeScreen(),
+          '/enter-code': (context) => const Placeholder(),
+          '/movie-selection': (context) => const Placeholder(),
+        },
       ),
-      home: WelcomeScreen(deviceIdService: deviceIdService),
-      routes: {
-        '/share-code': (context) =>
-            const Placeholder(), // TODO: Implement share code screen
-        '/enter-code': (context) =>
-            const Placeholder(), // TODO: Implement enter code screen
-      },
     );
   }
 }

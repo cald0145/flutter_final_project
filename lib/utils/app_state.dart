@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
-class AppState extends ChangeNotifier {
+class AppState with ChangeNotifier {
   String? deviceId;
-  setDeviceId(String id) {
+  String? sessionId;
+
+  void setDeviceId(String id) {
     deviceId = id;
+    notifyListeners();
+  }
+
+  void setSessionId(String id) {
+    sessionId = id;
     notifyListeners();
   }
 }
