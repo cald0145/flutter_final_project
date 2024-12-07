@@ -1,0 +1,23 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+.env
+# IntelliJ related
+.idea/
+*.iml
+# VS Code related
+.vscode/
+# Mac related
+*.DS_Store
+# Android related
+local.properties
+# iOS related
+Pods/
+Generated.xcconfig
+# Flutter specific
+.flutter/

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Add this import
 import 'screens/welcome_screen.dart';
 import 'services/device_id_service.dart';
 import 'utils/app_state.dart';
@@ -10,6 +11,7 @@ import 'screens/movie_selection_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   final prefs = await SharedPreferences.getInstance();
   final deviceIdService = DeviceIdService(prefs);
 
