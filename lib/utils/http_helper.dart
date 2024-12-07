@@ -19,4 +19,17 @@ class HttpHelper {
     );
     return jsonDecode(response.body);
   }
+
+  static Future<Map<String, dynamic>> voteMovie(
+    String sessionId,
+    int movieId,
+    bool vote,
+  ) async {
+    final response = await http.get(
+      Uri.parse(
+        '$movieNightBaseUrl/vote-movie?session_id=$sessionId&movie_id=$movieId&vote=$vote',
+      ),
+    );
+    return jsonDecode(response.body);
+  }
 }
