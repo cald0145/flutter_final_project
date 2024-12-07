@@ -1,82 +1,59 @@
-import 'dart:io';
-
-import 'package:android_id/android_id.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:final_project/screens/share_code_screen.dart';
-import 'package:final_project/utils/app_state.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import '../services/device_id_service.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({
-    super.key,
-  });
+class WelcomeScreen extends StatelessWidget {
+  final DeviceIdService deviceIdService;
 
-  @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _initializeDeviceId();
-  }
+  const WelcomeScreen({Key? key, required this.deviceIdService})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Movie Night'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Movie Night',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue[900],
       ),
-      body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ShareCodeScreen(),
-                    ));
-              },
-              child: const Text('Start Session'),
-            )
-          ],
+      body: Container(
+        color: Colors.blue[50],
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Welcome to Movie Night!',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/share-code');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.blue[900],
+                  ),
+                  child: const Text('Get Code to Share'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/enter-code');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.blue[900],
+                  ),
+                  child: const Text('Enter Shared Code'),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
-  }
-
-  Future<void> _initializeDeviceId() async {
-    String deviceId = await _fetchDeviceId();
-    Provider.of<AppState>(context, listen: false).setDeviceId(deviceId);
-  }
-
-  Future<String> _fetchDeviceId() async {
-    String deviceId = "";
-
-    try {
-      if (Platform.isAndroid) {
-        const androidPlugin = AndroidId();
-        deviceId = await androidPlugin.getId() ?? 'Unknown id';
-      } else if (Platform.isIOS) {
-        var deviceInfoPlugin = DeviceInfoPlugin();
-        var iOSInfo = await deviceInfoPlugin.iosInfo;
-        deviceId = iOSInfo.identifierForVendor ?? 'Unknown id';
-      } else {
-        deviceId = 'Unsupported platform';
-      }
-    } catch (e) {
-      deviceId = 'Error: $e';
-    }
-
-    if (kDebugMode) {
-      print('Device id: $deviceId');
-    }
-    return deviceId;
   }
 }

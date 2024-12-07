@@ -9,8 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  android_id:
-  device_info_plus:
+  android_id: ^0.3.6
+  device_info_plus: ^9.1.0
+  shared_preferences: ^2.2.2
   provider:
   http:
 
