@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["prefs", "TMDB"]
+  "cSpell.words": ["prefs", "TMDB"],
+  "cmake.ignoreCMakeListsMissing": true
 }

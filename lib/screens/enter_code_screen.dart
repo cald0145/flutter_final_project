@@ -1,10 +1,10 @@
-// lib/screens/enter_code_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../utils/app_state.dart';
 import '../utils/http_helper.dart';
 
+// stateful widget for entering a code
 class EnterCodeScreen extends StatefulWidget {
   const EnterCodeScreen({super.key});
 
@@ -13,60 +13,43 @@ class EnterCodeScreen extends StatefulWidget {
 }
 
 class _EnterCodeScreenState extends State<EnterCodeScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _codeController = TextEditingController();
-  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>(); // key for form validation
+  final _codeController = TextEditingController(); // controller for text field
+  bool _isLoading = false; // loading state
 
   @override
   void dispose() {
-    _codeController.dispose();
+    _codeController.dispose(); // dispose controller to free resources
     super.dispose();
   }
 
+  // function to join session
   Future<void> _joinSession() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return; // validate form
 
-    setState(() => _isLoading = true);
+    setState(() => _isLoading = true); // set loading state
 
     try {
-      final deviceId = Provider.of<AppState>(context, listen: false).deviceId;
-      final response =
-          await HttpHelper.joinSession(deviceId, _codeController.text);
+      final appState =
+          Provider.of<AppState>(context, listen: false); // get app state
+      final deviceId = appState.deviceId; // get device id
+      final response = await HttpHelper.joinSession(
+          deviceId, _codeController.text); // make http request
 
-      if (!mounted) return;
+      if (!mounted) return; // check if widget is still mounted
 
       if (response.containsKey('data')) {
-        Provider.of<AppState>(context, listen: false)
-            .setSessionId(response['data']['session_id']);
-        Navigator.pushReplacementNamed(context, '/movie-selection');
-      } else if (response.containsKey('error')) {
-        final errorMessage =
-            response['error']['message'] ?? 'Unknown error occurred.';
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Colors.red,
-          ),
-        );
+        appState.setSessionId(response['data']['session_id']); // set session id
+        Navigator.pushReplacementNamed(
+            context, '/movie-selection'); // navigate to next screen
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Unexpected response from server :^('),
-            backgroundColor: Colors.red,
-          ),
-        );
+        // handle error
       }
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Whoops, Failed to join session. Please try again!'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      // handle exception
     } finally {
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() => _isLoading = false); // reset loading state
       }
     }
   }
@@ -93,13 +76,13 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
                 TextFormField(
                   controller: _codeController,
                   decoration: const InputDecoration(
-                    labelText: 'Enter 4-digit code',
+                    labelText: 'Enter 4-Digit Code',
                     border: OutlineInputBorder(),
                   ),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(4),
+                    FilteringTextInputFormatter.digitsOnly, // allow only digits
+                    LengthLimitingTextInputFormatter(4), // limit length to 4
                   ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -113,7 +96,9 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _isLoading ? null : _joinSession,
+                  onPressed: _isLoading
+                      ? null
+                      : _joinSession, // disable button if loading
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.blue[900],
                     padding: const EdgeInsets.symmetric(
@@ -125,7 +110,8 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
                       ? const SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(),
+                          child:
+                              CircularProgressIndicator(), // show loading indicator
                         )
                       : const Text('Join Session'),
                 ),

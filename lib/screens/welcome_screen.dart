@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/device_id_service.dart';
 import '../utils/app_state.dart';
 
+// welcome screen widget that serves as the main entry point of app
 class WelcomeScreen extends StatelessWidget {
   final DeviceIdService deviceIdService;
 
@@ -10,11 +11,18 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // set the deviceid in AppState
-    deviceIdService.getDeviceId().then((id) {
-      Provider.of<AppState>(context, listen: false).setDeviceId(id);
-    });
+    final appState = Provider.of<AppState>(context, listen: false);
 
+    // set the device ID if not already set
+    // manages device id through device id service and app state
+// checks if device id is set
+// retrieves and stores device id if not already set
+//uses provider package for state management through app state
+    if (appState.deviceId == null) {
+      deviceIdService.getDeviceId().then((id) {
+        appState.setDeviceId(id);
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text(

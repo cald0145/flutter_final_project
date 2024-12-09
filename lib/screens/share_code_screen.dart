@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../utils/app_state.dart';
 import '../utils/http_helper.dart';
 
+// main widget for the share code screen
 class ShareCodeScreen extends StatefulWidget {
   const ShareCodeScreen({super.key});
 
@@ -11,33 +12,35 @@ class ShareCodeScreen extends StatefulWidget {
 }
 
 class _ShareCodeScreenState extends State<ShareCodeScreen> {
-  bool isLoading = true;
-  String? code;
-  String? error;
+  bool isLoading = true; // indicates if data is still loading
+  String? code; // stores the code to be shared
+  String? error; // stores any error message
 
   @override
   void initState() {
     super.initState();
-    _startSession();
+    _startSession(); // start session when widget is initialized
   }
 
+  // function to start a session and fetch the code
   Future<void> _startSession() async {
     try {
-      final deviceId = Provider.of<AppState>(context, listen: false).deviceId;
+      final appState = Provider.of<AppState>(context, listen: false);
+      final deviceId = appState.deviceId;
       final response = await HttpHelper.startSession(deviceId);
 
       if (mounted) {
         setState(() {
-          code = response['data']['code'];
-          Provider.of<AppState>(context, listen: false)
-              .setSessionId(response['data']['session_id']);
-          isLoading = false;
+          code = response['data']['code']; // set the fetched code
+          appState.setSessionId(
+              response['data']['session_id']); // update session id in app state
+          isLoading = false; // data loading is complete
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          error = 'Failed to start session. Please try again.';
+          error = 'Failed to start session! Please try again.';
           isLoading = false;
         });
       }
@@ -63,11 +66,12 @@ class _ShareCodeScreenState extends State<ShareCodeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (isLoading)
-                  const CircularProgressIndicator()
+                  const CircularProgressIndicator() // show loading indicator
                 else if (error != null)
                   Text(
                     error!,
-                    style: const TextStyle(color: Colors.red),
+                    style: const TextStyle(
+                        color: Colors.red), // show error message
                   )
                 else ...[
                   const Text(
@@ -85,7 +89,8 @@ class _ShareCodeScreenState extends State<ShareCodeScreen> {
                   const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/movie-selection');
+                      Navigator.pushNamed(context,
+                          '/movie-selection'); // navigate to movie selection screen
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.blue[900],
