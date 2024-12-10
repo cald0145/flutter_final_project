@@ -8,32 +8,9 @@
 		<data>
 		Wi4AS9uiCV2zKh4M6nRFDDsp1NQ=
 		</data>
-		<key>device_info_plus_privacy.bundle/Info.plist</key>
-		<data>
-		P3H4KTJ6DWj1Cq0mgssKtshx7zo=
-		</data>
-		<key>device_info_plus_privacy.bundle/PrivacyInfo.xcprivacy</key>
-		<data>
-		/LX0ZlwxwIAIhjZaDB8EiH5KpXA=
-		</data>
 	</dict>
 	<key>files2</key>
-	<dict>
-		<key>device_info_plus_privacy.bundle/Info.plist</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			dWOy2qyVEUlbAm1Bxagd4y1dYTG539QPat4eiPeSgqw=
-			</data>
-		</dict>
-		<key>device_info_plus_privacy.bundle/PrivacyInfo.xcprivacy</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bS2g2NkwIn1CjB2TY7CtbjoS4sm2jFzilxWKdBL8jDE=
-			</data>
-		</dict>
-	</dict>
+	<dict/>
 	<key>rules</key>
 	<dict>
 		<key>^.*</key>

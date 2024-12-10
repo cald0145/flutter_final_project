@@ -13,7 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    await dotenv.load(fileName: '../.env');
+    await dotenv.load(fileName: ".env");
   } catch (e) {
     print('Error loading .env file: $e');
   }
