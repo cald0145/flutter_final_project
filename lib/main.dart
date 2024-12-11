@@ -8,6 +8,7 @@ import 'utils/app_state.dart';
 import 'screens/share_code_screen.dart';
 import 'screens/enter_code_screen.dart';
 import 'screens/movie_selection_screen.dart';
+import 'config/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,10 +41,7 @@ class MovieNightApp extends StatelessWidget {
       create: (context) => AppState(prefs), // provide app state
       child: MaterialApp(
         title: 'Movie Night', // app title
-        theme: ThemeData(
-          primarySwatch: Colors.blue, // primary color
-          useMaterial3: true, // use material 3 design
-        ),
+        theme: AppTheme.theme, // custom theme
         home: WelcomeScreen(
             deviceIdService: deviceIdService), // set welcome screen as home
         routes: {

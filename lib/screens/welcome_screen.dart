@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/device_id_service.dart';
 import '../utils/app_state.dart';
+import '../utils/constants.dart';
 
 // welcome screen widget that serves as the main entry point of app
 class WelcomeScreen extends StatelessWidget {
@@ -35,15 +36,15 @@ class WelcomeScreen extends StatelessWidget {
         color: Colors.blue[50],
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(Spacing.md),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Welcome to Movie Night!',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: Spacing.xl),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/share-code');
